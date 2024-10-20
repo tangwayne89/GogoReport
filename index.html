@@ -9,12 +9,28 @@
       rel="stylesheet"
     />
     <link rel="stylesheet" href="styles.css">
+    <link rel="icon" type="image/png" href="path/to/your/icon.png">
   </head>
   <body>
     <div class="container">
+      <div class="left-container">
+        <div class="bulletin-board">
+          <h3>What's the Gogo Report Forest?</h3>
+          <p><strong>Welcome to the Report Forest! 🌳</strong></p>
+          <p>This is where all the incredible Gogolookers' reports in #report_case_hub come to life.</p>
+          <p>Every time you report, a piece of land will be assigned to you— your very own plot in the forest!</p>
+          <p><strong>And here's the exciting part:</strong></p>
+          <p>When someone on Whoscall searches for or visits a URL you've reported, your land will start sprouting trees, growing with each impact your report makes!</p>
+          <p>Watch your forest thrive and expand as you protect the community! 🌲</p>
+          <p>Press the button below to start building your own forest and make your mark today!</p>
+        </div>
+        <a href="https://gogolook.slack.com/archives/C056VRPM8AE" target="_blank" class="report-button">
+          Report to Build your Forest!
+        </a>
+      </div>
       <div class="map-container">
-        <h1>GogoReport Visualization</h1>
-        <h2>Report Forest 🌳</h2>
+        <h1>GogoTech Report Visualization</h1>
+        <h2>Gogo Report Forest 🌳</h2>
         <canvas id="mapCanvas" width="800" height="800"></canvas>
         <div id="legend"></div>
       </div>
@@ -29,9 +45,6 @@
             <div id="contributionLeaderboard" class="leaderboard"></div>
           </div>
         </div>
-        <a href="https://gogolook.slack.com/archives/C056VRPM8AE" target="_blank" class="report-button">
-          Report to Build your Forest!
-        </a>
       </div>
     </div>
 
@@ -439,12 +452,17 @@
         leaderboardElement.innerHTML = '';
         sortedData.slice(0, 10).forEach((item, index) => {
           const [uid, data] = item;
-          const value = type === 'contributions' ? data.contributions : data.influence;
+          let value;
+          if (type === 'contributions') {
+            value = `${data.contributions} Reports`;
+          } else {
+            value = `🌲 x${data.influence}`;
+          }
           const leaderboardItem = document.createElement('div');
           leaderboardItem.className = 'leaderboard-item';
           leaderboardItem.innerHTML = `
             <span>${index + 1}. ${uid}</span>
-            <span>${value} ${type === 'contributions' ? '次回報' : '影響力'}</span>
+            <span>${value}</span>
           `;
           leaderboardElement.appendChild(leaderboardItem);
         });
