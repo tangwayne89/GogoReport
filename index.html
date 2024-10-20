@@ -38,7 +38,20 @@
     <div id="infoBox" class="info-box"></div>
 
     <script>
-      const apiKey = "AIzaSyB-VS32a91Wy2xwAMhDD4BFUSu6YPwneuo";
+      // 解密函數
+      function decryptApiKey(encryptedKey) {
+        return atob(encryptedKey).split('').map(char => 
+          String.fromCharCode(char.charCodeAt(0) ^ 42)
+        ).join('');
+      }
+
+      // 加密後的 API Key (請使用實際加密後的值替換)
+      const encryptedApiKey = "a2NQS3lTaAd8eRkYSxMbfVMYUl1rZ0Jubh5obH95Xxxzel1ET19F";
+
+      // 解密 API Key
+      const apiKey = decryptApiKey(encryptedApiKey);
+
+      // 使用 spreadsheetId (這裡不需要加密,因為它不是敏感信息)
       const spreadsheetId = "1gCXrchthcYSjBcB6hBSg3ujOVoptPVukivNwPNk8TNQ";
 
       // 在文件頂部定義全局變
@@ -73,7 +86,8 @@
             }
             headers = data.values[0];
             reportData = data.values.slice(1);
-            animateGrowth(); // 替換原來的 drawMap()
+            resizeCanvas(); // 在數據加載後調整 canvas 大小
+            animateGrowth();
             generateLeaderboards();
           })
           .catch((error) => console.error("獲取數據時出錯:", error));
@@ -520,6 +534,27 @@
 
         requestAnimationFrame(animate);
       }
+
+      function resizeCanvas() {
+        const canvas = document.getElementById("mapCanvas");
+        const container = canvas.parentElement;
+        const containerWidth = container.clientWidth;
+        
+        canvas.width = Math.min(containerWidth, 800);
+        canvas.height = canvas.width; // 保持正方形
+
+        // 重新繪製地圖
+        drawMap();
+      }
+
+      // 在 window 調整大小時重新調整 canvas
+      window.addEventListener('resize', resizeCanvas);
+
+      // 在初始加載和數據獲取後調用 resizeCanvas
+      document.addEventListener("DOMContentLoaded", () => {
+        resizeCanvas();
+        fetchDataAndDrawMap();
+      });
     </script>
   </body>
 </html>

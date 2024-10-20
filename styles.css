@@ -7,16 +7,20 @@ color: #333;
 }
 .container {
 display: flex;
+flex-direction: row;
 justify-content: space-between;
 max-width: 1200px;
 margin: 0 auto;
+padding: 20px;
 }
 .map-container {
-width: 65%;
+flex: 1;
+max-width: 800px;
 text-align: center; /* 置中標題 */
 }
 .right-container {
-width: 30%;
+flex: 0 0 300px;
+margin-left: 20px;
 display: flex;
 flex-direction: column;
 }
@@ -154,8 +158,38 @@ canvas {
 }
 
 #mapCanvas {
+  width: 100%;
+  height: auto;
+  max-width: 800px;
+  max-height: 800px;
   border: 1px solid #e0e0e0;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   border-radius: 4px;
   background-color: rgba(248, 248, 248, 0.5); /* 添加一個非常淡的背景色 */
+}
+
+@media (max-width: 1024px) {
+  .container {
+    flex-direction: column;
+  }
+
+  .right-container {
+    margin-left: 0;
+    margin-top: 20px;
+  }
+
+  #mapCanvas {
+    max-width: 100%;
+  }
+}
+
+@media (max-width: 768px) {
+  .leaderboards-container {
+    flex-direction: column;
+  }
+
+  .leaderboard-card {
+    width: 100%;
+    margin-bottom: 20px;
+  }
 }
